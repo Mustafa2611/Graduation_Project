@@ -23,7 +23,8 @@ namespace Final_Project.Api.Controllers
             {
                 Name = EventDto.Name,
                 Description = EventDto.Description,
-                Event_Start_Date = EventDto.Event_Start_Date
+                Event_Start_Date = EventDto.Event_Start_Date,
+                College = _unitOfWork.Events.GetCollege(c=> c.CollegeId == EventDto.CollegeId , new[] {"Departments"})
             };
             if (_unitOfWork.Events.Create(Event) == null)
                 return BadRequest("Bad Request");
@@ -33,7 +34,7 @@ namespace Final_Project.Api.Controllers
 
         [HttpGet("/Get_Event_By_Id/{id}")]
         public IActionResult Get(int id) {
-            Event Event = _unitOfWork.Events.Get(id);
+            Event Event = _unitOfWork.Events.Get(e=> e.EventId == id , new[] {"College"});
             if (Event == null)
                 return NotFound();
 
@@ -43,7 +44,7 @@ namespace Final_Project.Api.Controllers
         [HttpGet("/Get_All_Events")]
         public IActionResult GetAll()
         {
-            IEnumerable<Event> Events = _unitOfWork.Events.GetAll();
+            IEnumerable<Event> Events = _unitOfWork.Events.GetAll(new[] { "College" } );
             if (Events == null)
                 return NotFound();
 
@@ -59,9 +60,10 @@ namespace Final_Project.Api.Controllers
                 EventId = EventDto.EventId,
                 Name = EventDto.Name,
                 Description = EventDto.Description,
-                Event_Start_Date = EventDto.Event_Start_Date
+                Event_Start_Date = EventDto.Event_Start_Date,
+                College = _unitOfWork.Events.GetCollege(c => c.CollegeId == EventDto.CollegeId, new[] { "Departments" })
             };
-            if(_unitOfWork.Events.Get(Event.EventId) == null)
+            if(_unitOfWork.Events.Get(e => e.EventId == Event.EventId, new[] { "College" }) == null)
                 return NotFound();
             _unitOfWork.Events.Update(Event);
             _unitOfWork.Complete();
@@ -71,7 +73,7 @@ namespace Final_Project.Api.Controllers
         [HttpDelete("/Delete_Event/{id}")]
         public IActionResult Delete(int id)
         {
-            Event Event = _unitOfWork.Events.Get(id);
+            Event Event = _unitOfWork.Events.Get(e => e.EventId == id, new[] { "College" });
             if (Event == null)
                 return NotFound("Event Not Found");
 

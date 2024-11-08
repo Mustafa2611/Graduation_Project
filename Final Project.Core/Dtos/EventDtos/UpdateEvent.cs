@@ -13,5 +13,7 @@ namespace Final_Project.Core.Dtos.EventDtos
         public string Description { get; set; }
         public DateTime Event_Start_Date { get; set; }
 
+        public int CollegeId { get; set; }
+
     }
 }

@@ -1,6 +1,8 @@
-﻿using Final_Project.EF.Configuration;
+﻿using Final_Project.Core.Models;
+using Final_Project.EF.Configuration;
 using FinalProject.Core.IRepositories;
 using FinalProject.Core.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +15,11 @@ namespace Final_Project.EF.RepositoriesImplementation
     {
         public EventRepositoryImp(ApplicationDbContext context) : base(context)
         {
-             
         }
+        
+       
+        
+
+        
     }
 }

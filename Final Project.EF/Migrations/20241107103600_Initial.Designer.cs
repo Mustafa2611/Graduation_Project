@@ -4,6 +4,7 @@ using Final_Project.EF.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Final_Project.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241107103600_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,15 +106,6 @@ namespace Final_Project.EF.Migrations
                     b.HasKey("CollegeId");
 
                     b.ToTable("Colleges");
-
-                    b.HasData(
-                        new
-                        {
-                            CollegeId = 1,
-                            College_Description = "Description",
-                            College_Name = "Computers & AI College",
-                            Contact_Information = "Contact info"
-                        });
                 });
 
             modelBuilder.Entity("Final_Project.Core.Models.Course", b =>

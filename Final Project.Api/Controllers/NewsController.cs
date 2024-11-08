@@ -24,7 +24,8 @@ namespace Final_Project.Api.Controllers
             {
                 Name = NewsDto.Name,
                 Description = NewsDto.Description,
-                News_Date = NewsDto.News_Date
+                News_Date = NewsDto.News_Date,
+                College = _unitOfWork.News.GetCollege(c => c.CollegeId == NewsDto.CollegeId, new[] { "Departments" })
             };
             if (_unitOfWork.News.Create(News) == null)
                 return BadRequest("Bad Request");
@@ -35,7 +36,7 @@ namespace Final_Project.Api.Controllers
         [HttpGet("/Get_News_By_Id/{id}")]
         public IActionResult Get(int id)
         {
-            News News = _unitOfWork.News.Get(id);
+            News News = _unitOfWork.News.Get(n => n.NewsId == id, new[] { "College" });
             if (News == null)
                 return NotFound();
 
@@ -45,7 +46,7 @@ namespace Final_Project.Api.Controllers
         [HttpGet("/Get_All_News")]
         public IActionResult GetAll()
         {
-            IEnumerable<News> News = _unitOfWork.News.GetAll();
+            IEnumerable<News> News = _unitOfWork.News.GetAll(new[] {"College"});
             if (News == null)
                 return NotFound();
 
@@ -61,9 +62,10 @@ namespace Final_Project.Api.Controllers
                 NewsId = NewsDto.NewsId,
                 Name = NewsDto.Name,
                 Description = NewsDto.Description,
-                News_Date = NewsDto.News_Date
+                News_Date = NewsDto.News_Date,
+                College = _unitOfWork.News.GetCollege(c=> c.CollegeId ==  NewsDto.NewsId , new[] {"Departments"}),
             };
-            if (_unitOfWork.News.Get(News.NewsId) == null)
+            if (_unitOfWork.News.Get(n => n.NewsId ==  News.NewsId, new[] { "College" }) == null)
                 return NotFound();
 
             _unitOfWork.News.Update(News);
@@ -74,7 +76,7 @@ namespace Final_Project.Api.Controllers
         [HttpDelete("/Delete_News/{id}")]
         public IActionResult Delete(int id)
         {
-            News News = _unitOfWork.News.Get(id);
+            News News = _unitOfWork.News.Get(n => n.NewsId == id, new[] { "College" });
             if (News == null)
                 return NotFound("News Not Found");
 

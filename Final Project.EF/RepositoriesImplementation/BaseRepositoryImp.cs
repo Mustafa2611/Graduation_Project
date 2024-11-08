@@ -1,4 +1,5 @@
-﻿using Final_Project.EF.Configuration;
+﻿using Final_Project.Core.Models;
+using Final_Project.EF.Configuration;
 using FinalProject.Core.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -25,22 +26,35 @@ namespace Final_Project.EF.RepositoriesImplementation
             return entity;
         }
 
-        public T Get(int id)
+        public T Get(Expression<Func<T, bool>> match, string[] includes = null)
         {
-            var entity = _context.Set<T>().Find(id);
+            //var entity = _context.Set<T>().Find(id);
+            //if (entity == null)
+            //    return null;
+            //_context.Entry(entity).State= EntityState.Detached;
+
+
+            IQueryable<T> query = _context.Set<T>();
+            if (includes != null)
+                foreach (var include in includes)
+                    query = query.Include(include);
+            var entity = query.FirstOrDefault(match);
             if (entity == null)
                 return null;
+
             _context.Entry(entity).State= EntityState.Detached;
+
             return entity;
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(string[] includes = null)
         {
-            var entity = _context.Set<T>().ToList();
-            if (entity == null)
-                return null;
+            IQueryable<T> query = _context.Set<T>();
+            if (includes != null)
+                foreach (var include in includes)
+                    query = query.Include(include);
 
-            return entity;
+            return query.ToList();
         }
 
         public T Update(T entity)
@@ -60,5 +74,18 @@ namespace Final_Project.EF.RepositoriesImplementation
             return entity;
         }
 
+        public College GetCollege(Expression<Func<College,bool>> match , string[] Includes = null)
+        {
+         
+            IQueryable<College> query = _context.Set<College>();
+            if(Includes != null)
+                foreach (var Include in Includes)
+                    query = query.Include(Include);
+
+            var entity = query.FirstOrDefault(match);
+            if (entity == null)
+                return null;
+            return entity;
+        }
     }
 }

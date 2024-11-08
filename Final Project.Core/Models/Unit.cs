@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Final_Project.Core.Dtos.EventDtos
+namespace Final_Project.Core.Models
 {
-    public class CreateEvent
+    public class Unit
     {
+        public int UnitId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime Event_Start_Date { get; set; }
 
-        public int CollegeId { get; set; }
+        public Employee Head_Of_Unit { get; set; }
+
+        public ICollection<Employee> Employees { get; set; }
     }
 }

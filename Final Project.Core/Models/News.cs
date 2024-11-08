@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Final_Project.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,7 @@ namespace FinalProject.Core.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime News_Date { get; set; }
+
+        public College College { get; set; }
     }
 }
